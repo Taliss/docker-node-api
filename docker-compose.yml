@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  api:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    command: npm run dev
+    ports:
+      - '3000:3000'
+  db:
+    image: 'postgres'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: 'qwerty'
+      POSTGRES_USER: 'node-docker-api'
