@@ -7,7 +7,7 @@ class UserService {
   }
 
   create({ email, givenName, familyName }) {
-    // Unfortunatly we can't use first here
+    // Unfortunately, we can't use first here
     return db('users')
       .insert({
         email,
