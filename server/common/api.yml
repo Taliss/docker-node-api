@@ -25,7 +25,7 @@ paths:
         required: true
       responses:
         201:
-          description: Return the user
+          description: Returns the newly created user
           content:
             application/json:
               schema:
@@ -37,11 +37,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         5XX:
-          description: User not found
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/InternalServerError'
   /users/{email}:
     get:
       tags:
@@ -67,11 +67,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         5XX:
-          description: User not found
+          description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/InternalServerError'
     put:
       tags:
         - Users
@@ -79,7 +79,7 @@ paths:
       parameters:
         - name: email
           in: path
-          description: The email of the user to update
+          description: The email of the user to be updated
           required: true
           schema:
             type: string
@@ -91,7 +91,7 @@ paths:
               $ref: '#components/schemas/UpdateUser'
       responses:
         200:
-          description: Returns the user
+          description: Returns the updated user
           content:
             application/json:
               schema:
@@ -103,11 +103,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         5XX:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    delete:
+      tags:
+        - Users
+      description: Delete existing user by email
+      parameters:
+        - name: email
+          in: path
+          description: The email of the user to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns OK
+        4XX:
           description: User not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        5XX:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
   /spec:
     get:
       tags:
@@ -177,4 +203,24 @@ components:
           example: RenameMyLastName
     Error:
       type: object
+      properties:
+        message:
+          type: string
+          example: Not found
+        status:
+          type: integer
+          example: 404
+      additionalProperties: true
+    InternalServerError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Something went wrong, please try again later.
+        status:
+          type: integer
+          example: 500
+        statusCode:
+          type: integer
+          example: 500
       additionalProperties: true

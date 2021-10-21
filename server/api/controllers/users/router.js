@@ -4,5 +4,6 @@ import controller from './controller';
 export default express
   .Router()
   .post('/', controller.create)
-  .get('/', controller.all)
-  .get('/:id', controller.byId);
+  .get('/:email', controller.getByEmail)
+  .put('/:email', controller.updateByEmail)
+  .delete('/:email', controller.deleteByEmail);
