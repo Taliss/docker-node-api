@@ -1,32 +1,34 @@
 import l from '../../common/logger';
+import db from '../../db/';
 
 class UserService {
   byEmail(email) {
-    l.info(`Looking for user, Email: ${email}`);
-    return Promise.resolve({ user: '42 get by email' });
+    return db('users').where({ email }).first();
   }
 
   create({ email, givenName, familyName }) {
-    l.info(
-      `creating user: Email: ${email}; GivenName: ${givenName}; familyName: ${familyName}`
-    );
-    return Promise.resolve({ user: '42 create' });
+    // Unfortunatly we can't use first here
+    return db('users')
+      .insert({
+        email,
+        given_name: givenName,
+        family_name: familyName,
+      })
+      .returning('*')
+      .then(([createdUser]) => createdUser)
+      .catch((err) => Promise.reject(err));
   }
 
   update({ email, body }) {
-    l.info(
-      `updating user by email: Email: ${email}; Body: ${JSON.stringify(
-        body,
-        null,
-        2
-      )}`
-    );
-    return Promise.resolve({ user: '42 update' });
+    return db('users').where({ email }).update({
+      email: body.email,
+      given_name: body.givenName,
+      family_name: body.familyName,
+    });
   }
 
   delete(email) {
-    l.info(`deleting user by email. Email: ${email}`);
-    return Promise.resolve({ user: '42 delete' });
+    return db('users').where({ email }).del();
   }
 }
 

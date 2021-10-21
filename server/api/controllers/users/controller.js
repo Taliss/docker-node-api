@@ -1,4 +1,5 @@
 import UserService from '../../services/user.service';
+import { HTTP_NOT_FOUND } from '../../../common/constants';
 
 export class UserController {
   create(req, res, next) {
@@ -12,7 +13,7 @@ export class UserController {
   getByEmail(req, res, next) {
     UserService.byEmail(req.params.email)
       .then((user) => {
-        user ? res.json(user) : res.status(404).end();
+        user ? res.json(user) : res.status(404).json(HTTP_NOT_FOUND);
       })
       .catch(next);
   }
@@ -20,16 +21,20 @@ export class UserController {
   updateByEmail(req, res, next) {
     UserService.update({ email: req.params.email, body: req.body })
       .then((user) => {
-        res.status(200).json(user);
+        user
+          ? res.status(200).json(user)
+          : res.status(404).json(HTTP_NOT_FOUND);
       })
       .catch(next);
   }
 
   deleteByEmail(req, res, next) {
     UserService.delete(req.params.email)
-      .then(() => {
-        res.status(200);
-      })
+      .then((deleteCount) =>
+        deleteCount
+          ? res.status(200).json()
+          : res.status(404).json(HTTP_NOT_FOUND)
+      )
       .catch(next);
   }
 }
