@@ -5,7 +5,7 @@ const db = require('.');
     await db.schema.dropTableIfExists('users');
     await db.schema.withSchema('public').createTable('users', (table) => {
       table.increments();
-      table.string('email').notNullable();
+      table.string('email').unique().notNullable();
       table.string('given_name').notNullable();
       table.string('family_name').notNullable();
       table.datetime('created').defaultTo(db.fn.now());
