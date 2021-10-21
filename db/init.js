@@ -5,7 +5,10 @@ const db = require('.');
     await db.schema.dropTableIfExists('users');
     await db.schema.withSchema('public').createTable('users', (table) => {
       table.increments();
-      table.string('name');
+      table.string('email').notNullable();
+      table.string('given_name').notNullable();
+      table.string('family_name').notNullable();
+      table.datetime('created').defaultTo(db.fn.now());
     });
     console.log('Created users table!');
     process.exit(0);

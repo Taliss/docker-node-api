@@ -4,7 +4,7 @@ module.exports = knex({
   client: 'postgres',
   connection: {
     host: 'db',
-    user: 'docker',
+    user: 'node-docker-api',
     password: 'qwerty',
   },
 });
