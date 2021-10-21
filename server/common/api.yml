@@ -6,93 +6,104 @@ info:
 servers:
   - url: /api
 tags:
-  - name: Examples
-    description: Simple example endpoints
+  - name: Users
+    description: Simple user endpoints
   - name: Specification
     description: The swagger API specification
 paths:
-  /examples:
-    get:
-      tags:
-        - Examples
-      description: Fetch all examples
-      responses:
-        200:
-          description: Return the example with the specified id
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Example'
-        4XX:
-          description: Example not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        5XX:
-          description: Example not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+  /users:
     post:
       tags:
-        - Examples
-      description: Create a new example
+        - Users
+      description: Create a new user
       requestBody:
-        description: an example
+        description: this is simple user
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ExampleBody'
+              $ref: '#/components/schemas/CreateUser'
         required: true
       responses:
         201:
-          description: Return the example with the specified id
+          description: Return the user
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/ExistingUser'
         4XX:
-          description: Example not found
+          description: User not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         5XX:
-          description: Example not found
+          description: User not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /examples/{id}:
+  /users/{email}:
     get:
       tags:
-        - Examples
+        - Users
       parameters:
-        - name: id
+        - name: email
           in: path
-          description: The id of the example to retrieve
+          description: The email of the user to retrieve
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         200:
-          description: Return the example with the specified id
+          description: Returns the user with the specified email
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: '#/components/schemas/ExistingUser'
         4XX:
-          description: Example not found
+          description: User not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         5XX:
-          description: Example not found
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - Users
+      description: this is updating user info
+      parameters:
+        - name: email
+          in: path
+          description: The email of the user to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: User details to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/UpdateUser'
+      responses:
+        200:
+          description: Returns the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExistingUser'
+        4XX:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: User not found
           content:
             application/json:
               schema:
@@ -107,25 +118,63 @@ paths:
           content: {}
 components:
   schemas:
-    Example:
+    ExistingUser:
       type: object
       properties:
         id:
-          type: integer
-          example: 3
-        name:
           type: string
-          example: example 3
+          example: g31sdGs8
+        email:
+          type: string
+          example: iliyan@best-email.com
+        givenName:
+          type: string
+          example: Iliyan
+        familyName:
+          type: string
+          example: Vlahov
+        created:
+          type: string
+          format: date-time
+          example: 2021-10-21T14:32:28Z
+    CreateUser:
+      required:
+        - email
+        - givenName
+        - familyName
+      type: object
+      properties:
+        email:
+          type: string
+          example: iliyan@my-email.com
+        givenName:
+          type: string
+          minLength: 2
+          maxLength: 30
+          example: Iliyan
+        familyName:
+          type: string
+          minLength: 2
+          maxLength: 30
+          example: Vlahov
+    UpdateUser:
+      type: object
+      minProperties: 1
+      maxProperties: 3
+      properties:
+        email:
+          type: string
+          example: iliyan@new-email.com
+        giveName:
+          type: string
+          minLength: 2
+          maxLength: 30
+          example: RenameMyFirstName
+        familyName:
+          type: string
+          minLength: 2
+          maxLength: 30
+          example: RenameMyLastName
     Error:
       type: object
       additionalProperties: true
-
-    ExampleBody:
-      title: example
-      required:
-        - name
-      type: object
-      properties:
-        name:
-          type: string
-          example: no_stress
