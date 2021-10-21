@@ -13,7 +13,7 @@ export class UserController {
   getByEmail(req, res, next) {
     UserService.byEmail(req.params.email)
       .then((user) => {
-        user ? res.json(user) : res.status(404).json(HTTP_NOT_FOUND);
+        user ? res.json(user) : next(HTTP_NOT_FOUND);
       })
       .catch(next);
   }
@@ -21,9 +21,7 @@ export class UserController {
   updateByEmail(req, res, next) {
     UserService.update({ email: req.params.email, body: req.body })
       .then((user) => {
-        user
-          ? res.status(200).json(user)
-          : res.status(404).json(HTTP_NOT_FOUND);
+        user ? res.status(200).json(user) : next(HTTP_NOT_FOUND);
       })
       .catch(next);
   }

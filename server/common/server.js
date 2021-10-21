@@ -7,6 +7,7 @@ import * as os from 'os';
 import l from './logger';
 import * as OpenApiValidator from 'express-openapi-validator';
 import errorHandler from '../api/middlewares/error.handler';
+import emailConstaintErrorHandler from '../api/middlewares/email.constraint.handler';
 
 const app = new Express();
 
@@ -43,6 +44,7 @@ export default class ExpressServer {
 
   router(routes) {
     routes(app);
+    app.use(emailConstaintErrorHandler);
     app.use(errorHandler);
     return this;
   }

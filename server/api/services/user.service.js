@@ -1,4 +1,3 @@
-import l from '../../common/logger';
 import db from '../../db/';
 
 class UserService {
