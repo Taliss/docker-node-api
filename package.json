@@ -10,7 +10,7 @@
     "dev:debug": "nodemon server --exec babel-node --config .nodemonrc.json --inspect | pino-pretty",
     "test": "mocha --require @babel/register --exit",
     "test:debug": "mocha --require @babel/register --inspect-brk --exit",
-    "init-db": "node db/init.js",
+    "init-db": "node server/db/init.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
