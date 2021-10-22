@@ -7,13 +7,7 @@ Install Docker
 ### Run It
 
 ```
-docker-compose up
-```
-
-OR
-
-```
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 ## Init DB
