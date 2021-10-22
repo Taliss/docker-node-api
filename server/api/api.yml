@@ -88,7 +88,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/UpdateUser'
+              $ref: '#/components/schemas/UpdateUser'
       responses:
         200:
           description: Returns the updated user
@@ -185,8 +185,6 @@ components:
           example: Vlahov
     UpdateUser:
       type: object
-      minProperties: 1
-      maxProperties: 3
       properties:
         givenName:
           type: string
@@ -198,6 +196,9 @@ components:
           minLength: 2
           maxLength: 30
           example: RenameMyLastName
+      anyOf:
+        - required: [givenName]
+        - required: [familyName]
     Error:
       type: object
       properties:
