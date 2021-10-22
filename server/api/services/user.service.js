@@ -21,10 +21,15 @@ class UserService {
   }
 
   update({ email, body }) {
-    return db('users').where({ email }).update({
-      given_name: body.givenName,
-      family_name: body.familyName,
-    });
+    return db('users')
+      .where({ email })
+      .update({
+        given_name: body.givenName,
+        family_name: body.familyName,
+      })
+      .returning('*')
+      .then(([updatedUser]) => updatedUser)
+      .catch((err) => Promise.reject(err));
   }
 
   delete(email) {
