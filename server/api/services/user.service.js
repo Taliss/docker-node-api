@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import db from '../../db/';
 
 class UserService {
@@ -9,6 +10,7 @@ class UserService {
     // Unfortunately, we can't use first here
     return db('users')
       .insert({
+        id: uuidv4(),
         email,
         given_name: givenName,
         family_name: familyName,
