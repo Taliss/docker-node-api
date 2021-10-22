@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import db from '../../db/';
 
 class UserService {
-  byEmail(email) {
+  findByEmail(email) {
     return db('users').where({ email }).first();
   }
 
@@ -15,7 +15,13 @@ class UserService {
         given_name: givenName,
         family_name: familyName,
       })
-      .returning('*')
+      .returning([
+        'id',
+        'email',
+        'given_name as givenName',
+        'family_name as familyName',
+        'created',
+      ])
       .then(([createdUser]) => createdUser)
       .catch((err) => Promise.reject(err));
   }
@@ -27,7 +33,13 @@ class UserService {
         given_name: body.givenName,
         family_name: body.familyName,
       })
-      .returning('*')
+      .returning([
+        'id',
+        'email',
+        'given_name as givenName',
+        'family_name as familyName',
+        'created',
+      ])
       .then(([updatedUser]) => updatedUser)
       .catch((err) => Promise.reject(err));
   }

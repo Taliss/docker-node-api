@@ -46,8 +46,7 @@ describe('Test user creating', () => {
       .send(fakeUsers[0])
       .expect(400)
       .expect((res) => {
-        expect(res.body.errors).not.toHaveLength(0);
-        expect(res.body.errors[0].message).toEqual(DUPLICATE_EMAIL.message);
+        expect(res.body.message).toEqual(DUPLICATE_EMAIL.message);
       });
   });
 
@@ -60,8 +59,7 @@ describe('Test user creating', () => {
       })
       .expect(400)
       .expect((res) => {
-        expect(res.body.errors).not.toHaveLength(0);
-        expect(res.body.errors[0].message).toContain('givenName');
+        expect(res.body.message).toContain('givenName');
       });
   });
 
@@ -71,9 +69,11 @@ describe('Test user creating', () => {
       .send(userToBeCreated)
       .expect(201)
       .expect((res) => {
-        expect(res.body).toHaveProperty('email', userToBeCreated.email);
         expect(res.body).toHaveProperty('id');
         expect(res.body).toHaveProperty('created');
+        expect(res.body.email).toBe(userToBeCreated.email);
+        expect(res.body.familyName).toBe(userToBeCreated.familyName);
+        expect(res.body.givenName).toBe(userToBeCreated.givenName);
       });
   });
 });

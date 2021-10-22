@@ -11,7 +11,7 @@ export class UserController {
   }
 
   getByEmail(req, res, next) {
-    UserService.byEmail(req.params.email)
+    UserService.findByEmail(req.params.email)
       .then((user) => {
         user ? res.json(user) : next(HTTP_NOT_FOUND);
       })
