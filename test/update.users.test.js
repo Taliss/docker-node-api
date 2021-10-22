@@ -50,7 +50,6 @@ describe('Test user updating', () => {
       .send({ familyName: 'New Family', givenName: 'New Given' })
       .expect(200)
       .expect((res) => {
-        console.log(res.body);
         expect(res.body.email).toBe(fakeUser.email);
         expect(res.body.familyName).toBe('New Family');
         expect(res.body.givenName).toBe('New Given');
