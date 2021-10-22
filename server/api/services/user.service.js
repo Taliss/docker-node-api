@@ -22,7 +22,6 @@ class UserService {
 
   update({ email, body }) {
     return db('users').where({ email }).update({
-      email: body.email,
       given_name: body.givenName,
       family_name: body.familyName,
     });

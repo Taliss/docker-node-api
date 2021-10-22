@@ -188,9 +188,6 @@ components:
       minProperties: 1
       maxProperties: 3
       properties:
-        email:
-          type: string
-          example: iliyan@new-email.com
         givenName:
           type: string
           minLength: 2
