@@ -2,46 +2,22 @@
 
 Playground for docker and node
 
-## Get Started
-
-Get started developing...
-
-```shell
-# install deps
-npm install
-
-# run in development mode
-npm run dev
-
-# run tests
-npm run test
-```
-
-## Install Dependencies
-
-Install all package dependencies (one time operation)
-
-```shell
-npm install
-```
+Install Docker
 
 ## Run It
 
-#### Run in _development_ mode:
-
-Runs the application is development mode. Should not be used in production
-
-```shell
-npm run dev
+```
+docker-compose up
 ```
 
-or debug it
+## Init DB
 
-```shell
-npm run dev:debug
+```
+docker exec -it node-api npm run init-db
 ```
 
-## Try It
+## Run Tests
 
-- Open your browser to [http://localhost:3000](http://localhost:3000)
-- Invoke the `/users` endpoint
+```
+docker exec -it node-api npm run test
+```
