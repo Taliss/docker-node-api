@@ -8,7 +8,8 @@ export default function errorHandler(err, req, res, next) {
       .status(500)
       .json({ message: 'Something went wrong, please try again later.' });
   } else {
-    const errors = err.errors || [{ message: err.message }];
-    res.status(err.status).json({ errors });
+    res
+      .status(err.status)
+      .json({ message: err.message, errors: err.errors || [] });
   }
 }
